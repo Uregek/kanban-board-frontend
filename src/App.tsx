@@ -1,5 +1,6 @@
 import './App.css';
-import { Board, Layout } from '~/components';
+import { Layout } from '~/components';
+import { Board } from '~/features/board/views';
 
 function App() {
   return (

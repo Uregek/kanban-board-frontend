@@ -1,14 +1,33 @@
 import React, { FC, useState } from 'react';
 import classNames from 'classnames';
+import { useAppDispatch } from '~/shared/hooks/react-redux';
+import { addColumn, addTaskToColumn } from '~/features/board/slice';
 
 interface AddElementProps {
   element: { type: 'column' } | { type: 'task'; columnId: string };
 }
 
 export const AddElement: FC<AddElementProps> = ({ element }) => {
+  const dispatch = useAppDispatch();
+
   const { type } = element;
 
   const [value, setValue] = useState('');
+
+  const handleAddElementClick = () => {
+    switch (type) {
+      case 'column':
+        dispatch(addColumn(value));
+        setValue('');
+        break;
+      case 'task':
+        dispatch(
+          addTaskToColumn({ columnId: element.columnId, content: value }),
+        );
+        setValue('');
+        break;
+    }
+  };
 
   return (
     <form
@@ -54,6 +73,7 @@ export const AddElement: FC<AddElementProps> = ({ element }) => {
       </div>
       <button
         disabled={Boolean(!value.length)}
+        onClick={handleAddElementClick}
         type="submit"
         className="disabled:bg-neutral-900 disabled:border-neutral-800 p-2 ml-2 text-sm font-medium rounded-lg border bg-neutral-500 border-neutral-400 hover:bg-neutral-400"
       >

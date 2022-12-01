@@ -1,9 +1,11 @@
 import { FC, memo, useState } from 'react';
-import { Column as ColumnType, Task as TaskType } from '~/data';
+import {
+  Column as ColumnType,
+  Task as TaskType,
+} from '~/features/board/models';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import { Task } from '~/components';
 import classNames from 'classnames';
-import { AddElement } from '~/components/AddElement';
+import { AddElement, Task } from '~/features/board/components';
 
 interface InnerListProps {
   tasks: TaskType[];
