@@ -35,7 +35,7 @@ export const Column: FC<ColumnProps> = memo(({ index, column, tasks }) => {
       {(provided, snapshot) => (
         <div
           className={classNames(
-            'relative border rounded-lg bg-neutral-900 border-neutral-600 shrink-0 w-80 mx-2 min-h-24 h-min',
+            'relative border rounded-lg bg-neutral-900 border-neutral-600 shrink-0 w-80 mx-2 h-min',
             { 'border-neutral-400': snapshot.isDragging },
           )}
           {...provided.draggableProps}

@@ -90,7 +90,7 @@ export const Board = () => {
       <Droppable droppableId="all-columns" direction="horizontal" type="column">
         {(provided) => (
           <div
-            className="text-white sm:p-10 p-5 flex flex-auto absolute w-full h-full snap-x snap-mandatory overflow-x-auto"
+            className="text-white sm:p-10 p-5 flex flex-auto absolute w-full h-full snap-x snap-mandatory overflow-x-auto scrollbar-hide"
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
