@@ -30,16 +30,22 @@ export const Column: FC<ColumnProps> = memo(({ index, column, tasks }) => {
 
   return (
     <Draggable key={column.id} draggableId={column.id} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <div
-          className="relative border rounded-lg bg-neutral-900 border-neutral-600 shrink-0 w-80 mx-2 min-h-24 h-min"
+          className={classNames(
+            'relative border rounded-lg bg-neutral-900 border-neutral-600 shrink-0 w-80 mx-2 min-h-24 h-min',
+            { 'border-neutral-400': snapshot.isDragging },
+          )}
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
           <div
             className={classNames(
-              'flex rounded-t-md flex-grow-0 bg-neutral-700 w-full flex-row p-2 border-b-2 border-neutral-600',
-              { 'rounded-md': !isOpen },
+              'flex rounded-t-md flex-grow-0 bg-neutral-700 w-full flex-row p-2 border-b border-neutral-600',
+              {
+                'rounded-md': !isOpen,
+                'bg-neutral-500 border-neutral-400': snapshot.isDragging,
+              },
             )}
             {...provided.dragHandleProps}
           >
@@ -85,7 +91,10 @@ export const Column: FC<ColumnProps> = memo(({ index, column, tasks }) => {
           </Droppable>
           <button
             onClick={() => setIsOpen((value) => !value)}
-            className="flex items-center gap-1 text-xs px-3 py-1 absolute block rounded-full bg-neutral-900 left-1/2 transform -translate-x-1/2 -bottom-3.5 border border-neutral-600"
+            className={classNames(
+              'flex items-center gap-1 text-xs px-3 py-1 absolute block rounded-full bg-neutral-900 left-1/2 transform -translate-x-1/2 -bottom-3.5 border border-neutral-600',
+              { 'border-neutral-400': snapshot.isDragging },
+            )}
           >
             {Boolean(!isOpen && tasks.length) && tasks.length}
             <svg
