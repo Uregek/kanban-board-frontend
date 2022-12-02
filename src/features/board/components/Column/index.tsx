@@ -35,7 +35,7 @@ export const Column: FC<ColumnProps> = memo(({ index, column, tasks }) => {
       {(provided, snapshot) => (
         <div
           className={classNames(
-            'relative border rounded-lg bg-neutral-900 border-neutral-600 shrink-0 w-80 mx-2 h-min',
+            'flex flex-col max-h-full relative border rounded-lg bg-neutral-900 border-neutral-600 shrink-0 w-80 mx-2 h-min',
             { 'border-neutral-400': snapshot.isDragging },
           )}
           {...provided.draggableProps}
@@ -56,10 +56,13 @@ export const Column: FC<ColumnProps> = memo(({ index, column, tasks }) => {
           <Droppable droppableId={column.id} type="task">
             {(provided, snapshot) => (
               <div
-                className={classNames('flex-grow p-2', {
-                  invisible: !isOpen,
-                  hidden: !isOpen,
-                })}
+                className={classNames(
+                  'flex-grow p-2 overflow-y-auto scrollbar-hide',
+                  {
+                    invisible: !isOpen,
+                    hidden: !isOpen,
+                  },
+                )}
               >
                 <div
                   className={classNames(

@@ -1,6 +1,8 @@
 import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { Column, ColumnMap, Task, TaskMap } from '~/features/board/models';
 import { generateTasks } from '~/features/board/utils';
+import undoable from 'redux-undo';
+import { undoRedoHistoryLimit } from '~/features/board/constants';
 
 interface BoardState {
   tasks: TaskMap;
@@ -124,4 +126,4 @@ export const {
   addTaskToColumn,
 } = boardSlice.actions;
 
-export default boardSlice.reducer;
+export default undoable(boardSlice.reducer, { limit: undoRedoHistoryLimit });
