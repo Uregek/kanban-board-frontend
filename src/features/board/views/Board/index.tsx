@@ -12,6 +12,7 @@ import {
   moveColumn,
   moveTaskBetweenColumns,
   moveTaskInColumn,
+  removeTask,
 } from '~/features/board/slice';
 import { AddElement, Column } from '~/features/board/components';
 
@@ -32,6 +33,17 @@ export const Board = () => {
 
   const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
     const { destination, source, draggableId, type } = result;
+
+    if (!destination && type === 'task') {
+      dispatch(
+        removeTask({
+          columnId: source.droppableId,
+          taskId: draggableId,
+          sourceIndex: source.index,
+        }),
+      );
+      return;
+    }
 
     if (!destination) {
       return;
@@ -90,7 +102,7 @@ export const Board = () => {
       <Droppable droppableId="all-columns" direction="horizontal" type="column">
         {(provided) => (
           <div
-            className="text-white sm:p-10 p-5 flex flex-auto absolute w-full h-full snap-x snap-mandatory overflow-x-auto scrollbar-hide"
+            className="text-white sm:p-10 p-5 flex flex-auto overflow-auto scrollbar-hide"
             {...provided.droppableProps}
             ref={provided.innerRef}
           >

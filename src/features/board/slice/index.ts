@@ -63,6 +63,20 @@ export const boardSlice = createSlice({
       state.columns[columnId] = { id: columnId, title: payload, taskOrder: [] };
       state.columnOrder.push(columnId);
     },
+    removeColumn(
+      state,
+      {
+        payload,
+      }: PayloadAction<{ columnId: Column['id']; columnIndex: number }>,
+    ) {
+      const { columnId, columnIndex } = payload;
+      const tasks = state.columns[columnId].taskOrder;
+      for (const taskId of tasks) {
+        delete state.tasks[taskId];
+      }
+      delete state.columns[columnId];
+      state.columnOrder.splice(columnIndex, 1);
+    },
     moveTaskInColumn(
       state,
       {
@@ -115,15 +129,31 @@ export const boardSlice = createSlice({
       state.tasks[taskId] = { id: taskId, content };
       state.columns[columnId].taskOrder.push(taskId);
     },
+    removeTask(
+      state,
+      {
+        payload,
+      }: PayloadAction<{
+        columnId: Column['id'];
+        taskId: Task['id'];
+        sourceIndex: number;
+      }>,
+    ) {
+      const { columnId, taskId, sourceIndex } = payload;
+      state.columns[columnId].taskOrder.splice(sourceIndex, 1);
+      delete state.tasks[taskId];
+    },
   },
 });
 
 export const {
   moveColumn,
   addColumn,
+  removeColumn,
   moveTaskInColumn,
   moveTaskBetweenColumns,
   addTaskToColumn,
+  removeTask,
 } = boardSlice.actions;
 
 export default undoable(boardSlice.reducer, { limit: undoRedoHistoryLimit });
